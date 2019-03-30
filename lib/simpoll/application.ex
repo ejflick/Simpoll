@@ -1,10 +1,11 @@
 defmodule Simpoll.Application do
   use Application
+  use Mix.Config
 
   def start(_type, _args) do
-    IO.puts("Starting with port " <> System.get_env("PORT"))
-
-    {port, ""} = Integer.parse(System.get_env("PORT"))
+    port = Application.get_env(:simpoll, :port)
+    IO.puts("Running in #{Mix.env()}")
+    IO.puts("Starting with port " <> Integer.to_string(port))
 
     children = [
       Plug.Cowboy.child_spec(

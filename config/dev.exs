@@ -1,3 +1,4 @@
 use Mix.Config
 
-config :simpoll, port: 4001
+{port, ""} = Integer.parse(System.get_env("PORT"))
+config :simpoll, port: port

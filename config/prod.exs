@@ -1,3 +1,4 @@
 use Mix.Config
 
-config :webhook_processor, port: 80
+{port, ""} = Integer.parse(System.get_env("PORT"))
+config :simpoll, port: port
