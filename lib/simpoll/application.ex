@@ -2,11 +2,15 @@ defmodule Simpoll.Application do
   use Application
 
   def start(_type, _args) do
+    IO.puts("Starting with port " <> System.get_env("PORT"))
+
+    {port, ""} = Integer.parse(System.get_env("PORT"))
+
     children = [
       Plug.Cowboy.child_spec(
         scheme: :http,
         plug: Simpoll.Endpoint,
-        options: [port: Application.get_env(:simpoll, :port)]
+        options: [port: port]
       )
     ]
 
