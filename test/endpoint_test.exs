@@ -50,7 +50,25 @@ defmodule Simpoll.EndpointTest do
     assert conn.resp_body == Poison.encode!(%{text: "Error interpretting request"})
   end
 
-  test "poll must have options" do
-    assert true
+  test "poll works" do
+    test_str = """
+    POST /poll HTTP/1.1
+    User-Agent: Slackbot 1.0 (+https://api.slack.com/robots)
+    Accept-Encoding: gzip,deflate
+    Accept: application/json,*/*
+    X-Slack-Signature: v0=ea1ba47c166cc62e5b50b8bd8a23099360f9fc95e6e5bd09da5cd15f056405ca
+    X-Slack-Request-Timestamp: 1554052647
+    Content-Length: 418
+    Content-Type: application/x-www-form-urlencoded
+    Host: 7c9327e2.ngrok.io
+    Cache-Control: max-age=259200
+    X-Forwarded-For: 54.90.40.91
+
+    token=bG483amisFxbzXr2UC79thyY&team_id=TG2UA6YS2&team_domain=lelbot&channel_id=CG1B6C7QU&channel_name=general&user_id=UG1MW27M3&user_name=flick.ej&command=%2Fpol&text=%22This+is+my+question%22+%22this+is+an+option%22+%22this+is+an+optioN%22&response_url=https%3A%2F%2Fhooks.slack.com%2Fcommands%2FTG2UA6YS2%2F595730996327%2F18CuSfy18jJe80qqtoQ9EFVw&trigger_id=596095389910.546962236886.54e9a5f95da28c3fdd8ee4689e880dd8
+    """
+    conn = conn(:post, "/poll", test_str)
+    conn = Simpoll.Endpoint.call(conn, @opts)
+    IO.inspect conn.resp_body
+    assert conn.status == 200
   end
 end
